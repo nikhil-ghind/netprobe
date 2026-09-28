@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "netprobe"
+version = "0.1.0"
+description = "A Scapy-based TCP/IP handshake, retransmission and latency validation framework, runnable under simulated packet loss."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Nikhil Ghind" }]
+dependencies = [
+    "scapy>=2.5.0",
+    "click>=8.1.0",
+    "rich>=13.7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+]
+
+[project.scripts]
+netprobe = "netprobe.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["netprobe*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "root_required: test needs real raw sockets (CAP_NET_RAW) and is skipped by default",
+]
+addopts = "-m 'not root_required'"
